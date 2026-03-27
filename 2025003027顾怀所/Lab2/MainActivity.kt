@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Phone
@@ -17,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -39,22 +42,26 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BusinessCard() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        // 星空背景图
-        Image(
-            painter = painterResource(id = R.drawable.background),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            // 月白星紫渐变背景
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFFF8F8FF), // 月白色
+                        Color(0xFF9370DB)  // 星紫色
+                    )
+                )
+            )
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 24.dp)
-                .padding(top = 100.dp, bottom = 100.dp),
+                .padding(top = 100.dp, bottom = 150.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(50.dp)
+            verticalArrangement = Arrangement.spacedBy(40.dp)
         ) {
             // 上半部分：头像 + 姓名 + 职位
             CardTop(
@@ -85,7 +92,7 @@ fun CardTop(name: String, title: String) {
             contentDescription = "头像",
             modifier = Modifier
                 .size(120.dp)
-                .clip(androidx.compose.foundation.shape.CircleShape) // 圆形裁剪
+                .clip(CircleShape)
                 .padding(4.dp),
             contentScale = ContentScale.Crop
         )
@@ -110,7 +117,7 @@ fun CardTop(name: String, title: String) {
 fun CardBottom(phone: String, email: String, social: String) {
     Column(
         modifier = Modifier.fillMaxWidth()
-            .padding(top = 50.dp),
+        .padding(top = 40.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         ContactRow(icon = Icons.Default.Phone, info = phone)
@@ -132,7 +139,7 @@ fun ContactRow(icon: androidx.compose.ui.graphics.vector.ImageVector, info: Stri
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = Color(0xFF9370DB), // 星紫色
+            tint = Color(0xFF9370DB),
             modifier = Modifier.size(26.dp)
         )
 
